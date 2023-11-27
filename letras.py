@@ -4,7 +4,6 @@ l = int(sys.argv[2])
 abecedario = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 resultado = ""
 
-
 for letra in abecedario[:n]:
 	resultado += letra*l
 
