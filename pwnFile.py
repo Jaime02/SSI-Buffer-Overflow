@@ -16,6 +16,8 @@ payload = b"".join(
 )
 
 payload += b"\n"
+#remoto p = pwn.remote(target,port)
+
 
 p = elf.process()
 p.sendline(b"1")
